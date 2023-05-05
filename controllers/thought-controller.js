@@ -20,7 +20,7 @@ module.exports = {
         Thought.create(req.body)
             .then((dbThoughtData) => {
                 return User.findOneAndUpdate(
-                    { _id: req.body.userId },
+                    { username: req.body.username },
                     { $push: { thoughts: dbThoughtData._id } },
                     { new: true }
                 )
@@ -46,4 +46,22 @@ module.exports = {
             )
             .catch((err) => res.status(500).json(err));
     },
+    addReaction(req, res) {
+        Thought.updateOne({ _id: req.params.userId }, { $addToSet: { reactions: req.params.thoughtId } })
+            .then((thought) =>
+                !thought
+                    ? res.status(404).json({ message: 'No thought with that ID' })
+                    : res.json(thought)
+            )
+            .catch((err) => res.status(500).json(err));
+    },
+    removeReaction(req, res) {
+        Thought.updateOne({ _id: req.params.userId }, { $pull: { reactions: req.params.thoughtId } })
+            .then((thought) =>
+                !thought
+                    ? res.status(404).json({ message: 'No thought with that ID' })
+                    : res.json(thought)
+            )
+            .catch((err) => res.status(500).json(err));
+    }
 };
