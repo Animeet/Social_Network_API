@@ -47,8 +47,7 @@ module.exports = {
             .catch((err) => res.status(500).json(err));
     },
     addReaction(req, res) {
-        console.log(req.params)
-        Thought.updateOne({ _id: req.params.userId }, { $addToSet: { reactions: req.params.thoughtId } })
+        Thought.updateOne({ _id: req.params.thoughtId }, { $addToSet: { reactions: req.body } })
             .then((thought) =>
                 !thought
                     ? res.status(404).json({ message: 'No thought with that ID' })
@@ -57,7 +56,7 @@ module.exports = {
             .catch((err) => res.status(500).json(err));
     },
     removeReaction(req, res) {
-        Thought.updateOne({ _id: req.params.userId }, { $pull: { reactions: req.params.thoughtId } })
+        Thought.updateOne({ _id: req.params.thoughtId }, { $pull: { reactions: {_id: req.params.reactionId}}})
             .then((thought) =>
                 !thought
                     ? res.status(404).json({ message: 'No thought with that ID' })
