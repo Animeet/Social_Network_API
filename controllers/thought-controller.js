@@ -47,6 +47,7 @@ module.exports = {
             .catch((err) => res.status(500).json(err));
     },
     addReaction(req, res) {
+        console.log(req.params)
         Thought.updateOne({ _id: req.params.userId }, { $addToSet: { reactions: req.params.thoughtId } })
             .then((thought) =>
                 !thought
