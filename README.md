@@ -1,4 +1,4 @@
-# **Tech-Blog**
+# **Social_Network_API**
 
   ## **Description**
   - An API used for a Social Network Web Application where users can share their thoughts, react to friends' thoughts, and create a friend list.
